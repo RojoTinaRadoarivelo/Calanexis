@@ -1,0 +1,62 @@
+# =====================================
+# GLOBAL
+# =====================================
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+dist-ssr/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Temp files
+.temp/
+.tmp/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# OS files
+.DS_Store
+
+# IDEs and Editors
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Environment variables
+.env
+.env.*
+src/environment/*
+
+# Tests / Coverage
+coverage/
+.nyc_output/
+
+# Prisma generated files
+/generated/prisma/
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Uploads / user data
+/uploads/
