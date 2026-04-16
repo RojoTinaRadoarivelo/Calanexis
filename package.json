@@ -26,11 +26,11 @@
   },
   "lint-staged": {
     "front-end/**/*.{js,ts,html,jsx,tsx}": [
-      "npm run lint --prefix front-end"
+      "npm --prefix front-end run lint:staged --"
     ],
     "back-end/**/*.ts": [
-      "npm run format --prefix back-end",
-      "npm run lint --prefix back-end"
+      "npm --prefix back-end run format:staged --",
+      "npm --prefix back-end run lint:staged --"
     ]
   }
 }
