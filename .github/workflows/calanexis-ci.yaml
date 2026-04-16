@@ -1,0 +1,89 @@
+name: CI calanexis
+
+on:
+  push:
+    branches:
+      - "feat/**"
+      - "features/**"
+      - "fix/**"
+      - "fixes/**"
+      - "hotfix/**"
+  workflow_dispatch:
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install backend
+        run: |
+          cd back-end
+          npm ci
+
+      - name: Install frontend
+        run: |
+          cd front-end
+          npm ci
+
+      - name: Prisma generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=public
+        run: |
+          cd back-end
+          npx prisma generate
+
+      - name: Build backend
+        run: |
+          cd back-end
+          npm run build
+
+      - name: Build frontend
+        run: |
+          cd front-end
+          npm run build
+
+      - name: Auto commit formatted files if any
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto format and fix according to rules."
+            echo "Commit created."
+          else
+            echo "No changes to commit."
+          fi
+
+      - name: Install Commitlint
+        run: npm install --save-dev @commitlint/cli
+
+      - name: Run commitlint on latest commit only
+        run: |
+          echo "Checking last commit only:"
+          git show -s --format=%B HEAD | npx commitlint --config commitlint.config.cjs
+
+      - name: Pull latest changes and push if commit created
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if git log -1 --pretty=%B | grep -q "Auto format and fix according to rules."; then
+            echo "Pulling latest changes for branch $BRANCH"
+            git pull --rebase origin $BRANCH
+
+            # Configure remote URL to use token
+            git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+
+            echo "Pushing commit to branch $BRANCH using token"
+            git push origin $BRANCH
+          else
+            echo "No new commit to push."
+          fi

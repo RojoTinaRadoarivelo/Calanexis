@@ -1,0 +1,15 @@
+model Users {
+    id  String  @id @default(uuid())    @db.Uuid
+}
+
+model UserSessions {
+    id  String  @id @default(uuid())    @db.Uuid
+}
+
+// Note:
+// Some internal database schemas and business logic have been
+// intentionally simplified or omitted in the public version
+// of this repository.
+
+// The complete schema and migrations can be shared upon request
+// for technical review.

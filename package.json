@@ -1,0 +1,36 @@
+{
+  "name": "saas-rendez-vous",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RojoTinaRadoarivelo/Calanexis.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RojoTinaRadoarivelo/Calanexis/issues"
+  },
+  "homepage": "https://github.com/RojoTinaRadoarivelo/Calanexis#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
+  },
+  "lint-staged": {
+    "front-end/**/*.{js,ts,html,jsx,tsx}": [
+      "npm run lint --prefix front-end"
+    ],
+    "back-end/**/*.ts": [
+      "npm run format --prefix back-end",
+      "npm run lint --prefix back-end"
+    ]
+  }
+}
