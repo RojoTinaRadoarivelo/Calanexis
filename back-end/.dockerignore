@@ -1,0 +1,15 @@
+.git
+.github
+.vscode
+node_modules
+dist
+test
+coverage
+.env
+.env.*
+uploads
+*.log
+*.tmp
+*.temp
+Dockerfile
+Dockerfile.*.dev
