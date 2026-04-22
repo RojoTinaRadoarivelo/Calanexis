@@ -1,0 +1,4 @@
+model UserPreferences {
+    id        String    @id @default(uuid()) @db.Uuid
+   
+}
