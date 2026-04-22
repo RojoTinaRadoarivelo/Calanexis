@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { reponsesDTO } from '../../utils/interfaces/responses';
 import { SMTPUtil } from '../../utils/smtp.util';
@@ -102,12 +102,15 @@ export class MfaService {
       };
       return response;
     } catch {
-      response = {
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message:
-          'There was an error while sending the verification code to your email',
-      };
-      return response;
+      throw new NotFoundException(
+        'There was an error while sending the verification code to your email',
+      );
+      // response = {
+      //   statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      //   message:
+      //     'There was an error while sending the verification code to your email',
+      // };
+      // return response;
     }
   }
 
@@ -123,10 +126,8 @@ export class MfaService {
       };
       return response;
     }
-    response = {
-      statusCode: HttpStatus.NOT_FOUND,
-      message: 'The verification of your email account failed',
-    };
-    return response;
+    throw new NotFoundException(
+      'The verification of your email account failed',
+    );
   }
 }

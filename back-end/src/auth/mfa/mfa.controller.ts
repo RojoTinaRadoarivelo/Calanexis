@@ -1,5 +1,6 @@
 import {
   Body,
+  ConflictException,
   Controller,
   Get,
   HttpStatus,
@@ -47,12 +48,11 @@ export class MfaController {
       );
     }
 
-    const statusCode = sendmailVerification
-      ? sendmailVerification.statusCode
-      : HttpStatus.CONFLICT;
-    const message = sendmailVerification
-      ? sendmailVerification.message
-      : USER_ERROR_MESSAGE.alreadyExist;
+    if (!sendmailVerification) {
+      throw new ConflictException(USER_ERROR_MESSAGE.alreadyExist);
+    }
+    const statusCode = sendmailVerification.statusCode;
+    const message = sendmailVerification.message;
 
     const response: reponsesDTO<object | null> = { statusCode, message };
 
